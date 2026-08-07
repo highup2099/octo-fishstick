@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime, timezone
 import logging
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from app.schemas.orders import OrderCreate, OrderResponse
@@ -20,6 +20,7 @@ limiter = Limiter(key_func=get_remote_address)
 @router.post("", response_model=OrderResponse)
 @limiter.limit("10/minute")  # Rate limit: 10 orders per minute per IP
 async def create_order(
+    request: Request,
     payload: OrderCreate,
     current_user: TokenData = Depends(get_current_active_user)
 ):

@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from app.schemas.quotes import QuoteCreate, QuoteResponse
@@ -16,6 +16,7 @@ limiter = Limiter(key_func=get_remote_address)
 @router.post("", response_model=QuoteResponse)
 @limiter.limit("30/minute")  # Rate limit: 30 quotes per minute per IP
 async def create_quote(
+    request: Request,
     payload: QuoteCreate,
     current_user: TokenData = Depends(get_current_active_user)
 ):
