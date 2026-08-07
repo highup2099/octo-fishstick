@@ -12,6 +12,7 @@ dependencies = [
   "redis>=6,<7",
   "httpx>=0.28,<1",
   "PyJWT>=2.10,<3",
+  "slowapi>=0.1.9,<1",
 ]
 [project.optional-dependencies]
 test = ["pytest>=8,<9", "pytest-asyncio>=1,<2"]

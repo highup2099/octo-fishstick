@@ -2,13 +2,13 @@ services:
   postgres:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: broker
-      POSTGRES_USER: broker
-      POSTGRES_PASSWORD: broker
+      POSTGRES_DB: ${POSTGRES_DB:-broker}
+      POSTGRES_USER: ${POSTGRES_USER:-broker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required. Set it in .env file or environment variable}
     ports: ["5432:5432"]
     volumes: [postgres_data:/var/lib/postgresql/data]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U broker -d broker"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-broker} -d ${POSTGRES_DB:-broker}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -26,8 +26,9 @@ services:
     build: ./apps/api
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://broker:broker@postgres:5432/broker
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-broker}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-broker}
       REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required. Generate a secure key and set it in .env file}
     ports: ["8000:8000"]
     depends_on:
       postgres: {condition: service_healthy}
