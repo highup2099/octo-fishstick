@@ -4,9 +4,11 @@
 *.dll
 *.so
 *.a
-*.o
 *.obj
 *.out
+*.pyc
+*.class
+*.o
 
 # Dependencies
 node_modules/
@@ -18,27 +20,30 @@ __pycache__/
 target/
 .gradle/
 
-# Editors/IDE
+# Build/dist directories
+dist/
+build/
+coverage/
+htmlcov/
+
+# Editor/IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
 
-# System/Environment
-.DS_Store
-Thumbs.db
+# Logs
+*.log
+
+# Environment files
 .env
 .env.local
 *.env.*
 
-# Logs and temp files
-*.log
-*.tmp
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
+# System files
+.DS_Store
+Thumbs.db
 
 # Compressed files
 *.zip
@@ -63,4 +68,7 @@ htmlcov/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+
+# Coverage
+.coverage
 ```
